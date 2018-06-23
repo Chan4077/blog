@@ -1,20 +1,65 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<mat-sidenav-container fullscreen>
+	<mat-sidenav #sidenav class="app-sidenav">
+		<mat-toolbar>
+			Links
+			<span fxFlex></span>
+			<button mat-icon-button (click)="sidenav.close()" matTooltip="Close sidenav" matTooltipPosition="right">
+				<mat-icon>keyboard_arrow_left</mat-icon>
+			</button>
+		</mat-toolbar>
+		<mat-nav-list>
+			<a mat-list-item href="https://chan4077.github.io">
+				<mat-icon matListIcon>home</mat-icon>
+				<h3 matLine>Back to main website</h3>
+			</a>
+			<mat-divider></mat-divider>
+			<a mat-list-item routerLink="/home" routerLinkActive="active-link">
+				<mat-icon matListIcon>dashboard</mat-icon>
+				<h3 matLine>Blog dashboard</h3>
+			</a>
+		</mat-nav-list>
+	</mat-sidenav>
+	<mat-sidenav #postsSidenav position="end" class="app-sidenav">
+		<mat-toolbar>
+			<button mat-icon-button (click)="postsSidenav.close()" matTooltip="Close sidenav">
+				<mat-icon>keyboard_arrow_right</mat-icon>
+			</button>
+			<span fxFlex></span>
+			Posts
+		</mat-toolbar>
+		<mat-nav-list>
+			<a mat-list-item *ngFor="let post of posts?.posts" [routerLink]="['/' + post.routerLink]" routerLinkActive="active-link">
+				<h3 matLine>{{post.name}}</h3>
+				<small matLine>{{post.date | date}}</small>
+			</a>
+		</mat-nav-list>
+	</mat-sidenav>
+	<mat-sidenav-content>
+		<mat-toolbar color="primary" class="mat-elevation-z3">
+			<button mat-icon-button (click)="sidenav.toggle()" class="app-sidenav-button">
+				<mat-icon>menu</mat-icon>
+			</button>
+			Blog
+			<span fxFlex></span>
+			<button mat-icon-button [matMenuTriggerFor]="moreMenu">
+				<mat-icon>more_vert</mat-icon>
+			</button>
+			<button mat-icon-button (click)="postsSidenav.toggle()" matTooltip="Show all blog articles">
+				<mat-icon>
+					<svg width="24px" height="24px" viewBox="0 0 24 24">
+						<path d="M20,11H4V8H20M20,15H13V13H20M20,19H13V17H20M11,19H4V13H11M20.33,4.67L18.67,3L17,4.67L15.33,3L13.67,4.67L12,3L10.33,4.67L8.67,3L7,4.67L5.33,3L3.67,4.67L2,3V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V3L20.33,4.67Z" />
+					</svg>
+				</mat-icon>
+			</button>
+			<mat-menu #moreMenu="matMenu">
+				<a mat-menu-item href="https://github.com/Chan4077/blog">
+					<mat-icon>code</mat-icon>
+					View source code
+				</a>
+			</mat-menu>
+		</mat-toolbar>
+		<div class="content" fxLayout="column">
+			<router-outlet></router-outlet>
+		</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>
